@@ -1,101 +1,277 @@
-# SafeRide AI
+Software Requirements Specification (SRS)
+Project Title: Forest Biomass Estimation and Monitoring System
+ Date: October 2025
 
-**Image-based Real-Time Passenger Vehicle Overcrowded Detection using Deep Learning**
+1. Introduction
+1.1 Purpose
+The purpose of this document is to define the functional and non-functional requirements for the Forest Biomass Estimation and Monitoring System.
+ The system aims to process drone, satellite, or mobile data to identify trees, estimate biomass, detect temporal changes, and generate visual and analytical reports to support environmental management and reforestation planning.
 
------
+1.2 Scope
+The system provides a complete end-to-end workflow for aerial data processing, analysis, and visualization.
+ It converts imagery into 3D point clouds, performs feature extraction and biomass estimation, and produces visual dashboards and reports.
+ Key functionalities include:
+Tree identification and segmentation from point cloud data.
 
-## Overview
 
-**SafeRide AI** is an end-to-end computer vision system designed to detect unsafe passenger practices in public transport vehicles, such as passengers hanging outside or sitting on rooftops of buses, chingchis, rickshaws, and Suzuki pickups.
+Biomass computation using allometric models.
 
-This system uses roadside CCTV camera feeds to:
 
-  - Detect public transport vehicles.
-  - Identify overcrowded or unsafe passenger behaviors.
-  - Capture violation evidence (number plate, image, time, location).
-  - Estimate the number of unsafe passengers (hanging + on roof).
-  - Log violations to a server and display them on a dashboard.
+Change detection and comparative analysis across time periods.
 
-## Motivation
 
-In many developing regions across South Asia and Africa, public transport is often dangerously overcrowded, leading to severe accidents and fatalities. Current monitoring is **manual, inconsistent, and not scalable**. This project aims to **automate traffic enforcement** using AI to create safer roads and support smart city initiatives.
+Visualization through dashboards and report generation.
 
------
 
-## Tech Stack
+Suggested plant/no-plant area recommendations.
 
-  - **Object Detection:** YOLOv8 / YOLOv9
-  - **Core Library:** Python 3.10+
-  - **Video Processing:** OpenCV
-  - **Backend & API:** FastAPI / Flask
-  - **Frontend:** Flutter
-  - **Annotation:** CVAT / LabelImg / Roboflow
 
------
 
-## Project Structure
+1.3 Objectives
+Automate biomass estimation from aerial imagery.
 
-```
-safe-ride-AI/
-├── data/         # Collected traffic videos & frames
-├── labels/       # YOLO annotations
-├── src/          # Source code
-│   ├── preprocess.py
-│   ├── train.py
-│   └── detect.py
-├── notebooks/    # Experiments and model training notebooks
-├── results/      # Sample outputs & model results
-├── docs/         # Reports, presentations
-├── requirements.txt
-└── README.md
-```
 
------
+Enable researchers to visualize forest data in real-time.
 
-## Dataset Plan
 
-The project involves building a custom dataset of public transport vehicles common in the target regions.
+Detect environmental and deforestation changes efficiently.
 
-  - **Classes:** Bus, Suzuki Pickup, Chingchi.
-  - **Target Size:** At least 1000 annotated images per class.
-  - **Diversity:** Images will be captured in various lighting, weather, and camera angle conditions to ensure model robustness.
-  - **Format:** Annotations will be in YOLO format.
 
------
+Provide a scalable, modular architecture for future expansion.
 
-## Project Goals & Timeline
 
-The project is divided into two academic semesters, each with clear objectives.
 
-### FYP-1 (Fall 2025)
+1.4 Definitions, Acronyms, and Abbreviations
+Term
+Definition
+PCD
+        Point Cloud Data
+RGB
+        Red, Green, Blue (image color                       channels)
+API
+       Application Programming Interface
+UI
+      User Interface
 
-  - [ ] Data collection and preprocessing
-  - [ ] Image annotation (YOLO format)
-  - [ ] Train initial baseline model
 
-### FYP-2 (Spring 2026)
 
-  - [ ] Improve model accuracy and speed
-  - [ ] Real-time detection integration
-  - [ ] Build dashboard and backend API
-  - [ ] Deploy and test the complete end-to-end system
 
-| Phase                       | Duration                  | Focus                    |
-| --------------------------- | ------------------------- | ------------------------ |
-| **FYP-1** | Sep 2025 – Dec 2025       | Data + Model Development |
-| **FYP-2** | Jan 2026 – May 2026       | Integration + Deployment |
 
------
 
-## Expected Outcomes
+2. Overall Description
+2.1 Product Perspective
+The system operates as a multi-layered architecture combining data processing, storage, and visualization modules.
+ It can integrate with drone and satellite platforms for data input and generate comprehensive reports for researchers and environmental agencies.
+2.2 Product Features
+Import aerial RGB images and PCD files.
 
-  - A system to **detect overloaded vehicles in real-time** from roadside cameras.
-  - **Automatic logging of violations** with evidence (image, time, location).
-  - An **interactive dashboard** for law enforcement agencies.
-  - A solution that helps **reduce road accidents** and supports smart city infrastructure.
 
------
-## License
+Convert RGB data into 3D point clouds.
 
-This project is licensed under the MIT License, see the LICENSE file for details.
-This project is also developed for academic purposes under the FAST-NUCES Final Year Project 2025–26.
+
+Clean and preprocess datasets for tree extraction.
+
+
+Identify trees, compute biomass, and store metadata.
+
+
+Compare results across time for change detection.
+
+
+Generate analytical dashboards and reports.
+
+
+2.3 User Characteristics
+User Type
+Description
+Researcher
+Uploads data, views analysis, and downloads reports.
+Administrator
+Manages users, datasets, and report outputs.
+
+
+3. System Features
+3.1 Data Input & Conversion
+Accepts RGB imagery and point cloud data from drones/satellites.
+
+
+Performs RGB-to-Point Cloud Conversion.
+
+
+Validates and formats input data for consistency.
+
+
+3.2 Preprocessing and Cleaning
+Removes noise and separates ground/non-ground points.
+
+
+Normalizes datasets for feature extraction.
+
+
+3.3 Tree Segmentation & Feature Extraction
+Identifies tree canopies and trunks from PCD.
+
+
+Extracts geometric features (height, diameter, crown size).
+
+
+3.4 Biomass Estimation
+Applies allometric models for per-tree and per-plot biomass.
+
+
+Stores outputs in a structured database.
+
+
+3.5 Temporal Change Detection
+Compares two or more datasets from different time periods.
+
+
+Identifies deforestation, growth, or degradation areas.
+
+
+3.6 Visualization and Reporting
+Displays maps, charts, and statistical summaries.
+
+
+Exports PDF and CSV reports.
+
+
+Suggests reforestation (plant/no-plant) zones.
+
+
+
+4. System Design
+4.1 Selected Design
+The proposed system follows a Four-Tier Layered Architecture, dividing the system into User, Data Input & Conversion, Processing, and Application/Database Management layers.
+ This design ensures scalability, modularity, and maintainability.
+
+4.2 Layered Architecture Overview
+1)User Layer
+Provides the main interface for interaction (Dashboard).
+
+
+Allows users to upload data, trigger processing, and view reports.
+
+
+2)Data Input & Conversion Layer
+Manages input data (RGB, PCD).
+
+
+Converts RGB images into point cloud format.
+
+
+3)Processing Layer
+Handles preprocessing, segmentation, biomass estimation, and change detection.
+
+
+Communicates with the database for data storage and retrieval.
+
+
+4 Application & Database Management Layer
+Hosts visualization dashboards and report generation modules.
+
+
+Manages database operations and metadata indexing.
+
+
+
+4.3 System Architecture Diagram
+[ User Layer ]
+     ↓
+[ Data Input & Conversion Layer ]
+     ↓
+[ Processing Layer ]
+     ↓
+[ Application & Database Management Layer ]
+
+
+4.4 Justification for Selected Design
+Aspect
+Reason
+Scalability
+Each layer can be updated or scaled independently.
+Modularity
+Separation of concerns simplifies maintenance.
+Security
+Data access is routed securely via the backend.
+Performance
+Supports large dataset processing efficiently.
+Maintainability
+Layered design isolates logic and UI changes.
+
+
+4.5 Technology Stack
+Component
+Technology Used
+Frontend / Dashboard
+React.js / Figma for UI design
+Backend Server
+Python (Flask / FastAPI)
+Processing Modules
+Python, OpenCV, PDAL, TensorFlow
+Database
+PostgreSQL / MongoDB with PostGIS
+Visualization
+Plotly, Dash, Leaflet.js
+Deployment
+Docker, AWS Cloud
+
+
+5. Non-Functional Requirements
+Category
+Requirement
+Performance
+System must process large PCD datasets (≥ 1 GB) efficiently.
+Scalability
+Must support integration of additional sensors or models.
+Usability
+Dashboard must be simple, responsive, and intuitive.
+Reliability
+Data loss prevention and backup mechanisms required.
+Security
+All user data must be encrypted and securely accessed.
+Maintainability
+Codebase must follow modular and documented structure.
+
+
+6. Database Design
+6.1 Main Entities
+Tree: Individual tree data with height, diameter, coordinates.
+
+
+Plot: Spatial grouping of trees.
+
+
+BiomassRecord: Computed biomass data linked to tree/plot.
+
+
+Metadata Index: Manages versioning, upload dates, and source type.
+
+
+
+7. Constraints
+Requires consistent and accurate aerial imagery input.
+
+
+High computation time for large areas.
+
+
+Internet access required for dashboard and database connectivity.
+
+
+
+8. Future Enhancements
+Integration with real-time satellite monitoring.
+
+
+Machine learning-based species classification.
+
+
+Cloud-based collaborative analytics platform.
+
+
+
+9. Conclusion
+The Forest Biomass Estimation and Monitoring System provides an end-to-end solution for environmental data analysis and visualization.
+ Its layered architecture ensures modular development, scalability, and maintainability while meeting research and operational needs for sustainable forest management.
+
